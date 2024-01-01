@@ -46,7 +46,7 @@ public class Cart {
         this.user = user;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "bookid")
     private Book book;
 
@@ -55,6 +55,8 @@ public class Cart {
     }
 
     public void setBook(Book book) {
+        System.out.println("I am saving book for cart.");
         this.book = book;
+        System.out.println("I am saving book successful.");
     }
 }

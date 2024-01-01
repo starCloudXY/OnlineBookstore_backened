@@ -46,8 +46,8 @@ public class BookstoreListener {
     System.out.println(record.value());
     OrderData orderData=record.value();
     Order order=orderService.AddOrders(orderData);
-        System.out.println("I am getting message finishing!");
-        String FinishMessage="订单完成:\n"+"[用户:"+orderData.getUserid()+"]"+"[订单号:"+order.getId()+"]\n[时间:"+order.getDate()+"]\n[总价:"+order.getSum()+"]\n";
+    System.out.println("I am getting message finishing!");
+    String FinishMessage="订单完成:\n"+"[用户:"+orderData.getUserid()+"]"+"[订单号:"+order.getId()+"]\n[时间:"+order.getDate()+"]\n[总价:"+order.getSum()+"]\n";
     kafkaTemplate.send("finished-events", "key", FinishMessage);
     System.out.println("监听到订单消息");
     }

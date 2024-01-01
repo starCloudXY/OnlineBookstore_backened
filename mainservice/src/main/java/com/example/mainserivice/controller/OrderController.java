@@ -36,7 +36,10 @@ public class OrderController {
         System.out.println("findOrderItems");
         return orderService.findOrderItemsByOrderID(orderID);
     }
-
+    @GetMapping("/findOrderbyId/{orderID}")
+    public Order findOrderbyId(@PathVariable Integer orderID) {
+        return orderService.findOrderbyId(orderID);
+    }
     @GetMapping("/findAllOrders")
     public List<Order> findAllOrders(){
         System.out.println("findAllOrders");
@@ -66,11 +69,10 @@ public class OrderController {
         return orderService.findTopUsersByOrderCountFromDateToDate(start,end);
     }
     @PostMapping("/AddOrders")
-    public Order AddOrders(@RequestBody OrderData orderData){
+    public void AddOrders(@RequestBody OrderData orderData){
         System.out.println("I am sending !");
         kafkaTemplate.send("order-events","key",orderData);
         System.out.println(" sending finished!");
-        return orderService.AddOrders(orderData);
     }
     @PostMapping("/AddOrders/confirm")
     void Confirm(@RequestBody List<Integer> id){

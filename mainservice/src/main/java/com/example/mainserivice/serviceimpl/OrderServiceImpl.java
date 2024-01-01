@@ -30,10 +30,12 @@ public class OrderServiceImpl implements OrderService {
         User user = userDao.findbyID(userID);
         return orderDao.findByUserID(user);
     }
-
+    @Override
+    public Order findOrderbyId(Integer orderID){
+        return orderDao.findOrderByOrderID(orderID);
+    }
     @Override
     public List<Orderitem> findOrderItemsByOrderID(Integer orderID) {
-        System.out.println("I'm Service");
         List<Orderitem> orderItems = orderDao.findOrderItemsByOrder(orderDao.findOrderByOrderID(orderID));
         for(Orderitem o : orderItems){
             o.setBook(bookDao.findbyID(o.getBook().getId()));

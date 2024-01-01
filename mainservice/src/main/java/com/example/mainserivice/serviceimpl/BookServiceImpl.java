@@ -5,6 +5,7 @@ import com.example.mainserivice.dao.BookDao;
 import com.example.mainserivice.dao.CartDao;
 import com.example.mainserivice.dao.OrderDao;
 import com.example.mainserivice.entity.Book;
+import com.example.mainserivice.entity.BookDetail;
 import com.example.mainserivice.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,10 @@ public class BookServiceImpl implements BookService {
         cartDao.deleteCartItemsByBook(book);
         return bookDao.deleteOneBook(bookId);
     }
-
+    @Override
+    public List<Book> findBooksByTagRelation(String tagName){
+        return bookDao.findBooksByTagRelation(tagName);
+    }
     @Override
     public Book insertNewBook(String name, String author, String isbn, Integer inventory, Double price, String description, String imageUrl) {
         return bookDao.insertNewBook(name, author, isbn, inventory, price, description, imageUrl);

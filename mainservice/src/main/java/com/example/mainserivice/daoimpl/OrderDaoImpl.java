@@ -9,6 +9,9 @@ import com.example.mainserivice.repository.OrderRepository;
 import com.example.mainserivice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.sql.Timestamp;
@@ -41,7 +44,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Order findOrderByOrderID(Integer orderID) {
-        return orderRepository.getReferenceById(orderID);
+        return orderRepository.getById(orderID);
     }
 
     @Override
@@ -53,6 +56,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor=Exception.class, isolation = Isolation.READ_COMMITTED)
     public Order addCartToOrder(User user, List<Cart> Carts) {
         System.out.println("I'm Dao");
         Order order = new Order();
@@ -151,19 +155,19 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public  Order AddOrder(Integer userID,Double sum){
         Order order=new Order();
-        System.out.println("Start to create order baby.O.o");
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~Start to create order baby.O.o~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         order.setUser(userRepository.getReferenceById(userID));
         Date utildate=new Date();
         order.setDate(new java.sql.Timestamp(utildate.getTime()));
         order.setSum(sum);
+        order.setState("unpaid");
         orderRepository.saveAndFlush(order);
-        System.out.println("Finish to save mature order.O.o");
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~Finish to save mature order.O.o~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         return order;
     };
 
     @Override
     public List<Order> findByUserID(User user) {
-        System.out.println("I'm DAO for fundByUserID");
         return orderRepository.findOrdersByUser(user);
     }
 

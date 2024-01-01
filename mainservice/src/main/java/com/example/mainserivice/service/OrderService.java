@@ -12,7 +12,7 @@ import java.util.List;
 public interface OrderService {
 
     List<Order> findOnesOrder(Integer userID);
-
+    Order findOrderbyId(Integer orderID);
     List<Orderitem> findOrderItemsByOrderID(Integer orderID);
 
     List<Order> findAllOrders();

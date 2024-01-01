@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -23,24 +24,30 @@ public class Book {
     @Column(name = "name")
     private String name;
     @Basic
-    @Column(name = "type")
-    private String type;
-    @Basic
     @Column(name = "author")
     private String author;
     @Basic
     @Column(name = "price")
     private BigDecimal price;
-    @Basic
-    @Column(name = "description")
-    private String description;
+
     @Basic
     @Column(name = "inventory")
     private Integer inventory;
     @Basic
     @Column(name = "image")
     private String image;
-
+    @ElementCollection
+    private List<String> tags;
+    private String description;
+    public void setTags(List<String> tags){
+        this.tags = tags;
+    }
+    public List<String> getTags(){
+        return tags;
+    }
+    public String getDescription(){
+        return description;
+    }
     public int getId() {
         return id;
     }
@@ -65,14 +72,6 @@ public class Book {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getAuthor() {
         return author;
     }
@@ -88,15 +87,7 @@ public class Book {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    
     public Integer getInventory() {
         return inventory;
     }
@@ -109,6 +100,10 @@ public class Book {
         return image;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setImage(String image) {
         this.image = image;
     }
@@ -118,11 +113,11 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return id == book.id && Objects.equals(isbn, book.isbn) && Objects.equals(name, book.name) && Objects.equals(type, book.type) && Objects.equals(author, book.author) && Objects.equals(price, book.price) && Objects.equals(description, book.description) && Objects.equals(inventory, book.inventory) && Objects.equals(image, book.image);
+        return id == book.id && Objects.equals(isbn, book.isbn) && Objects.equals(name, book.name) && Objects.equals(author, book.author) && Objects.equals(price, book.price) && Objects.equals(inventory, book.inventory) && Objects.equals(image, book.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, isbn, name, type, author, price, description, inventory, image);
+        return Objects.hash(id, isbn, name, author, price, inventory, image);
     }
 }
